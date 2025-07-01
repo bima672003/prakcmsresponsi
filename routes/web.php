@@ -8,6 +8,9 @@ use App\Http\Controllers\AntrianServisController;
 use App\Http\Controllers\PekerjaanServisController;
 use App\Http\Controllers\TransaksiServisController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 Route::resource('pelanggan', PelangganController::class);
 // atau
 Route::get('/pelanggan/create', [PelangganController::class, 'create'])->name('pelanggan.create');
@@ -34,3 +37,20 @@ Route::prefix('antrian-servis/{antrian_id}')->group(function () {
 
 // Route tambahan untuk data chart (opsional)
 Route::get('/chart-data', [DashboardController::class, 'chartData'])->name('dashboard.chart-data');
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/login'); // arahkan ke halaman login atau home
+})->name('logout');
+Route::prefix('antrian-servis/{antrian_id}/pekerjaan-servis')->group(function () {
+    Route::get('/', [PekerjaanServisController::class, 'index'])->name('pekerjaan-servis.index');
+    Route::get('/create', [PekerjaanServisController::class, 'create'])->name('pekerjaan-servis.create');
+    Route::post('/', [PekerjaanServisController::class, 'store'])->name('pekerjaan-servis.store');
+});
+
+Route::get('/pekerjaan-servis/{pekerjaanServis}', [PekerjaanServisController::class, 'show'])->name('pekerjaan-servis.show');
+Route::get('/pekerjaan-servis/{pekerjaanServis}/edit', [PekerjaanServisController::class, 'edit'])->name('pekerjaan-servis.edit');
+Route::put('/pekerjaan-servis/{pekerjaanServis}', [PekerjaanServisController::class, 'update'])->name('pekerjaan-servis.update');
+Route::delete('/pekerjaan-servis/{pekerjaanServis}', [PekerjaanServisController::class, 'destroy'])->name('pekerjaan-servis.destroy');

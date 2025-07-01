@@ -34,7 +34,7 @@ class PekerjaanServisController extends Controller
         ]);
 
         return redirect()->route('pekerjaan-servis.index', $antrian_id)
-            ->with('success', 'Pekerjaan servis berhasil ditambahkan');
+            ->with('success', 'Pekerjaan servis berhasil ditambahkan.');
     }
 
     public function show(PekerjaanServis $pekerjaanServis)

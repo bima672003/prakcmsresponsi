@@ -26,10 +26,15 @@ class AntrianServis extends Model
         return $this->belongsTo(Karyawan::class);
     }
 
-    public function pekerjaanServis()
-    {
-        return $this->hasMany(PekerjaanServis::class);
-    }
+   public function pekerjaanServis()
+{
+    return $this->hasMany(PekerjaanServis::class);
+}
+public function antrianServis()
+{
+    return $this->belongsTo(AntrianServis::class);
+}
+
 
     public function transaksiServis()
     {
